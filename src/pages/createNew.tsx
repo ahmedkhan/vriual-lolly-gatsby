@@ -6,20 +6,21 @@ import * as Yup from "yup"
 import { useMutation } from '@apollo/client'
 import gql from "graphql-tag"
 import { navigate } from "gatsby"
-import shortid from "shortid"
+import shortid from "shortid" 
 
 const ADD_LOLLY = gql`
-    mutation addLolly($color1: String!, 
+    mutation addLolly(
+        $color1: String!, 
         $color2: String!,
         $color3: String!,
         $reciever: String!,
         $sender: String!,
-        $message: String!){
-            addLolly(color1: $color1,color2: $color2,color3: $color3,reciever: $reciever,sender: $sender,message: $message){
+        $message: String!,
+        $link: String!){
+            addLolly(color1: $color1,color2: $color2,color3: $color3,reciever: $reciever,sender: $sender,message: $message,link: $link){
                 sender
                 reciever
-                message
-                link
+                message                
             }
     }
 `
@@ -39,7 +40,7 @@ const CreateNew =()=>{
     const [color2, setColor2] = useState("#e95946")
     const [color3, setColor3] = useState("#deaa43")
     const [addLolly, { data }] = useMutation(ADD_LOLLY);
-
+   
     const formik = useFormik({
         initialValues: {
             reciever: '',
@@ -54,10 +55,11 @@ const CreateNew =()=>{
                     color1, color2, color3,
                     reciever: values.reciever,
                     sender: values.sender,
-                    message: values.message
+                    message: values.message,
+                    link : id
                 }
             })
-            navigate(`/lollies/${id}`)
+           navigate(`/lollies/${id}`)
 
             resetForm({
                 values: {

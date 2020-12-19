@@ -2,12 +2,13 @@ const { ApolloServer, gql } = require('apollo-server-lambda')
 
 const faunadb = require("faunadb"),
   q = faunadb.query
-const shortid = require("shortid")
 
- 
+
+
 const typeDefs = gql`
   type Query {
     getLollies: [lolly]
+    getLollyByPath(lollyPath: String!): lolly
   }
   type lolly {
     id: ID!
@@ -18,7 +19,7 @@ const typeDefs = gql`
     reciever: String!
     message: String!
     link: String!
-  }
+  } 
   type Mutation {
     addLolly(
       color1: String!
@@ -27,19 +28,20 @@ const typeDefs = gql`
       sender: String!
       reciever: String!
       message: String!
+      link: String!
     ): lolly
   }
 `
- 
+
 var adminClient = new faunadb.Client({
   secret: "fnAD9IE5lKACBeLtaUmCu8lI24N12KT2GIeOpIYh",
 })
 
 const resolvers = {
   Query: {
-    getLollies :async (root, args, context) =>{
-       try{
-           const result = await adminClient.query(
+    getLollies: async (root, args, context) => {
+      try {
+        const result = await adminClient.query(
           q.Map(
             q.Paginate(q.Match(q.Index("allLollies"))),
             q.Lambda(x => q.Get(x))
@@ -61,14 +63,26 @@ const resolvers = {
         })
 
 
-       } catch (err){
-         console.log(err)
-       }
-    }
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    getLollyByPath: async (_, args) => {
+      try {
+        var result = await client.query(
+          q.Get(q.Match(q.Index("Lolly_by_path"), args.link))
+        )
+
+        return result.data
+      } catch (e) {
+        return e.toString()
+      }
+    },
+
   },
-  Mutation :{
-    addLolly : async(_, { color1, color2, color3, sender, reciever, message }) =>{
-      console.log(color1, color2, color3, sender, reciever, message)
+  Mutation: {
+    addLolly: async (_, { color1, color2, color3, sender, reciever, message, link }) => {
+      console.log(color1, color2, color3, sender, reciever, message, link)
       const result = await adminClient.query(
         q.Create(q.Collection("Lollies"), {
           data: {
@@ -77,8 +91,8 @@ const resolvers = {
             color3,
             sender,
             reciever,
-            message,  
-            link: shortid.generate()          
+            message,
+            link
           },
         })
       )
