@@ -70,7 +70,7 @@ const resolvers = {
     getLollyByPath: async (_, args) => {
       try {
         var result = await client.query(
-          q.Get(q.Match(q.Index("Lolly_by_path"), args.link))
+          q.Get(q.Match(q.Index("Lolly_by_path"), args))
         )
 
         return result.data
