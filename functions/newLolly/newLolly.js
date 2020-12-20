@@ -7,7 +7,7 @@ const faunadb = require("faunadb"),
 
 const typeDefs = gql`
   type Query {
-    getLollies: [lolly]
+    getLollies: [lolly]!
     getLollyByPath(lollyPath: String!): lolly
   }
   type lolly {
