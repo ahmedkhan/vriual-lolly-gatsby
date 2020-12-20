@@ -1,7 +1,9 @@
 [build]
   command = "yarn build"
-  publish = "public/"
-  functions = "functions/"
+  publish = "/opt/build/repo/public"
+  functions = "/opt/build/repo/functions"
   
 [[plugins]]
+- inputs: {}
+  origin: config
   package = "@netlify/plugin-functions-install-core"    
