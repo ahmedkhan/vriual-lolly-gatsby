@@ -59,7 +59,7 @@ const CreateNew =()=>{
                     link : id
                 }
             })
-           navigate(`/lollies/${id}`)
+            navigate(`/lollies/${id}`)
 
             resetForm({
                 values: {
