@@ -15,7 +15,7 @@ export interface Props {
   }
 }
 
- 
+  
 export default function DynamicLollyPage({ pageContext }: Props) {
 
   return (
