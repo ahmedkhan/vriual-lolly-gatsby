@@ -175,9 +175,9 @@ const CreateNew = () => {
                             <h4>Share lolly with this link:</h4>
                             <h3>{`https://vriual-lolly-gatsby.netlify.app/lollies/${data.addLolly.link}`}</h3>
                             <div className="res_detail">
-                                <p className="to">{data.addLolly.reciever}</p>
-                                <p className="message">{data.addLolly.message}</p>
-                                <p className="from">____{data.addLolly.sender}</p>
+                                <p className="to">Hello :{data.addLolly.reciever}</p>
+                                <p className="message">Message :{data.addLolly.message}</p>
+                                <p className="from">From :{data.addLolly.sender}</p>
                             </div>
                         </div>
                     )}
