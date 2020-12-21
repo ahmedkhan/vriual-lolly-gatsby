@@ -20,7 +20,8 @@ const ADD_LOLLY = gql`
             addLolly(color1: $color1,color2: $color2,color3: $color3,reciever: $reciever,sender: $sender,message: $message,link: $link){
                 sender
                 reciever
-                message                
+                message 
+                link               
             }
     }
 `
@@ -40,7 +41,7 @@ const CreateNew = () => {
     const [color2, setColor2] = useState("#e95946")
     const [color3, setColor3] = useState("#deaa43")
     const [addLolly, { data }] = useMutation(ADD_LOLLY);
-
+    console.log(data)
     const formik = useFormik({
         initialValues: {
             reciever: '',
@@ -172,11 +173,11 @@ const CreateNew = () => {
                 ) : (
                         <div className="result">
                             <h4>Share lolly with this link:</h4>
-                            <h3>{`https://vriual-lolly-gatsby.netlify.app/lollies/${data.link}`}</h3>
+                            <h3>{`https://vriual-lolly-gatsby.netlify.app/lollies/${data.addLolly.link}`}</h3>
                             <div className="res_detail">
-                                <p className="to">{data.reciever}</p>
-                                <p className="message">{data.message}</p>
-                                <p className="from">____{data.sender}</p>
+                                <p className="to">{data.addLolly.reciever}</p>
+                                <p className="message">{data.addLolly.message}</p>
+                                <p className="from">____{data.addLolly.sender}</p>
                             </div>
                         </div>
                     )}
