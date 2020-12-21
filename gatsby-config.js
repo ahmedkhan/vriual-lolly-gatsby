@@ -4,8 +4,8 @@ module.exports = {
     {
       resolve: "gatsby-source-graphql",
       options: {        
-        typeName: "Lollies",        
-        fieldName: "LOLLIES",       
+        typeName: "GSG",        
+        fieldName: "GetLollies",       
         url: "https://vriual-lolly-gatsby.netlify.app/.netlify/functions/newLolly",
       },
     }

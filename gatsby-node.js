@@ -1,36 +1,40 @@
-const path = require(`path`)
+const path = require("path")
 
-exports.createPages = async ({ actions, graphql }) => {
+exports.createPages = async ({ graphql, actions }) => {
+  const { createPage } = actions
+
+  const lollyTemplate = path.resolve("./src/components/dynamicLollyPage.tsx")
+
   const { data } = await graphql(`
-  query MyQuery {
-    getLollies {
-      getLollies {
+    {
+      GetLollies {
+        getLollies {
           color1
           color2
           color3
           link
-          sender
           reciever
+          sender
           message
+        }
       }
     }
-  }
   `)
-  
-  console.log(data)
-  data.getLollies.getLollies.forEach(node => {
+
+  data.GetLollies.getLollies.forEach( lolly => {
     createPage({
-      path: `lolly/${node.link}`,
-      component: path.resolve(`./src/components/dynamicLollyPage.tsx`),
+      component: lollyTemplate,
+      path: `lollies/${lolly.link}`,
       context: {
-        color1: node.color1,
-        color2: node.color2,
-        color3: node.color3,
-        link: node.link,
-        message: node.message,
-        sender: node.sender,
-        reciever: node.reciever,
+        link: lolly.link,
+        color1: lolly.color1,
+        color2: lolly.color2,
+        color3: lolly.color3,
+        reciever: lolly.reciever,
+        sender: lolly.sender,
+        message: lolly.message,
       },
     })
   })
 }
+

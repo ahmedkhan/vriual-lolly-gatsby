@@ -3,7 +3,7 @@ const { ApolloServer, gql } = require('apollo-server-lambda')
 const faunadb = require("faunadb"),
   q = faunadb.query
 
- 
+const axios = require("axios")
 
 const typeDefs = gql`
   type Query {
@@ -67,11 +67,10 @@ const resolvers = {
         console.log(err)
       }
     },
-    getLollyByPath: async (_, link) => {
-      try {
-        console.log(link)
+    getLollyByPath: async (_, args) => {
+      try {        
         var result = await client.query(
-          q.Get(q.Match(q.Index("Lolly_by_path"), link))
+          q.Get(q.Match(q.Index("Lolly_by_path"),args))
         )
 
         return result.data
@@ -96,7 +95,7 @@ const resolvers = {
             link
           },
         })
-      )
+      )    
 
       return result.data
     }

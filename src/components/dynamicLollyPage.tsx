@@ -1,26 +1,22 @@
 import React from "react";
 import {Lolly} from "./Lolly";
 import Header from "./Header";
-import { graphql } from "gatsby";
 
 
-export const query = graphql`
-  query MyQuery($lollyPath: String!) {
-    LOLLIES {
-      getLollyByPath(lollyPath: $lollyPath) {
-        color1
-        color2
-        color3
-        link
-        message
-        reciever
-        sender
-      }
-    }
+export interface Props {
+    pageContext: {
+    color1: string
+    color2: string
+    color3: string
+    reciever: string
+    sender: string
+    message: string
+    link: string
   }
-`
+}
+
  
-export default function DynamicLollyPage({ data }) {
+export default function DynamicLollyPage({ pageContext }: Props) {
 
   return (
     <div>
@@ -28,19 +24,19 @@ export default function DynamicLollyPage({ data }) {
       <h5 className="sharableLinkContainer">Your sharable link: </h5>{" "}
       <span className="sharableLink">
         {" "}
-        {`https://sharelolly.netlify.app/lollies/${data.LOLLIES.getLollyByPath.link}`}
+        {`https://vriual-lolly-gatsby.netlify.app/lollies/${pageContext.link}`}
       </span>
       <div className="recievedContentContainer">
         <Lolly          
-          top={data.LOLLIES.getLollyByPath.color1}
-          middle={data.LOLLIES.getLollyByPath.color2}
-          bottom={data.LOLLIES.getLollyByPath.color3}
+          top={pageContext.color1}
+          middle={pageContext.color2}
+          bottom={pageContext.color3}
         />
 
         <div className="recievedTextContainer">
-          <h3>HI {data.LOLLIES.getLollyByPath.reciever.toUpperCase()}</h3>
-          <p>{data.LOLLIES.getLollyByPath.message}</p>
-          <h4>From: {data.LOLLIES.getLollyByPath.sender}</h4>
+          <h3>HI {pageContext.reciever.toUpperCase()}</h3>
+          <p>{pageContext.message}</p>
+          <h4>From: {pageContext.sender}</h4>
         </div>
       </div>
     </div>
